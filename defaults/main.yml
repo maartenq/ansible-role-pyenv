@@ -1,0 +1,59 @@
+---
+pyenv_dist:
+  Archlinux:
+    packages:
+      - base-devel
+      - git
+      - openssl
+      - tk
+      - xz
+      - zlib
+  Darwin:
+    packages:
+      - openssl-devel
+      - readline
+      - sqlite3
+      - tcl-tk
+      - xz
+      - zlib
+  RedHat:
+    packages:
+      - "{{ ( (ansible_facts.distribution_major_version | default(0) | int) < 8) | ternary('libselinux-python','python3-libselinux') }}"
+      - bzip2
+      - bzip2-devel
+      - findutils
+      - gcc
+      - git
+      - libffi-devel
+      - libffi-devel
+      - make
+      - openssl-devel
+      - sqlite
+      - sqlite-devel
+      - xz-devel
+      - zlib-devel
+  Fedora:
+    packages:
+      - bzip2
+      - bzip2-devel
+      - findutils
+      - gcc
+      - gdbm-devel
+      - git
+      - libffi-devel
+      - libffi-devel
+      - make
+      - openssl-devel
+      - python3-libselinux
+      - readline-devel
+      - sqlite
+      - sqlite-devel
+      - tk-devel
+      - xz-devel
+      - zlib-devel
+pyenv_repo_url: https://github.com/pyenv/pyenv.git
+pyenv_repo_version: master
+pyenv_virtual_env_repo_url: https://github.com/pyenv/pyenv-virtualenv
+pyenv_virtual_env_version: master
+pyenv_path: "{{ ansible_env.HOME }}/.pyenv"
+pyenv_git_update: false

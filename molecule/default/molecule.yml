@@ -1,0 +1,58 @@
+---
+# role_name_check: 1
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: ubi8
+    image: quay.io/maartenq/ubi8-systemd-ansible-molecule:latest
+    groups:
+      - main
+    override_command: false
+    tmpfs:
+      - /run
+      - /tmp
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    pre_build_image: true
+    privileged: true
+
+  - name: archlinux
+    image: quay.io/maartenq/archlinux-systemd-ansible-molecule
+    groups:
+      - main
+    tmpfs:
+      - /run
+      - /tmp
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    pre_build_image: true
+    privileged: true
+
+  - name: fedora
+    image: quay.io/maartenq/fedora-systemd-ansible-molecule
+    groups:
+      - main
+    tmpfs:
+      - /run
+      - /tmp
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    pre_build_image: true
+    privileged: true
+
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      main:
+        ansible_user: ansible
+verifier:
+  name: ansible

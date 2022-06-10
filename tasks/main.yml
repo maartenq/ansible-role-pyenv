@@ -1,0 +1,39 @@
+---
+- name: os-specific variables
+  ansible.builtin.command:
+    argv:
+      - id
+  when: true
+  register: id_out
+
+- name: debua
+  ansible.builtin.debug:
+    var: id_out
+
+# - name: debub
+#   ansible.builtin.debug:
+#     var: ansible_facts
+
+- name: debub
+  ansible.builtin.debug:
+    var: ansible_distribution
+
+- name: Install needed OS packages
+  ansible.builtin.package:
+    name: "{{ pyenv_dist[ansible_distribution].packages }}"
+    state: present
+  become: "{{ pyenv_dist[ansible_distribution].become | default(true) }}"
+
+- name: Install PyEnv
+  ansible.builtin.git:
+    repo: "{{ pyenv_repo_url }}"
+    dest: "{{ pyenv_path }}"
+    update: "{{ pyenv_git_update | bool }}"
+    version: "{{ pyenv_repo_version }}"
+
+- name: Install PyEnv-virtualenv plugin
+  ansible.builtin.git:
+    repo: "{{ pyenv_virtual_env_repo_url }}"
+    dest: "{{ pyenv_path }}/plugins/pyenv-virtualenv"
+    update: "{{ pyenv_git_update | bool }}"
+    version: "{{ pyenv_virtual_env_version }}"
